@@ -1,10 +1,10 @@
 import { collection, getDocs, getFirestore } from "firebase/firestore";
 
 // Problem with Firebase Admin, db not accessable
-import {admin} from "@/lib/firebase-admin";
+// import {db} from "@/lib/firebase-admin";
 
 const db = getFirestore()
-export default async (_, res) => {
+const sites = async (_, res) => {
     const querySnapshot = await getDocs(collection(db, 'sites'))
     const sites = []
 
@@ -14,3 +14,5 @@ export default async (_, res) => {
 
     res.status(200).json({sites})
 }
+
+export default sites
