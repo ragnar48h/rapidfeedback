@@ -13,7 +13,7 @@ export default function Dashboard() {
   
   if(!data)    return (
     <DashboardShell>
-      <SiteTableSkeleton/>
+      <EmptyState/>
     </DashboardShell>
   )
   
