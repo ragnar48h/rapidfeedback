@@ -1,18 +1,13 @@
-import { collection, getDocs, getFirestore } from "firebase/firestore";
+import {auth} from '@/lib/firebase-admin'
+import {getUserSites} from "@/lib/db-admin";
 
-// Problem with Firebase Admin, db not accessable
-// import {db} from "@/lib/firebase-admin";
-
-const db = getFirestore()
-const sites = async (_, res) => {
-    const querySnapshot = await getDocs(collection(db, 'sites'))
-    const sites = []
-
-    querySnapshot.forEach((doc) => {
-      sites.push({id: doc.id, ...doc.data()})
-    })
-
-    res.status(200).json({sites})
+export default async (req, res) => {
+    try {
+        const {uid} = await auth.verifyIdToken(req.headers.token)
+        const sites = await getUserSites(uid)
+        
+        res.status(200).json(sites)
+    } catch(error) {
+        res.status(200).json({error})
+    }
 }
-
-export default sites
